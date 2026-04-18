@@ -1,0 +1,77 @@
+{
+  "header": {
+    "title": "Delfos Dashboard — Versión 3 Editable",
+    "focus": "Base operativa confiable",
+    "dominant_next_step": "Ordenar frentes y owners",
+    "system_state": "Transición a operativo"
+  },
+  "top3": [
+    "Definir un próximo paso único por frente",
+    "Bajar improvisación en stack / infraestructura",
+    "Transformar análisis en pipeline de salida"
+  ],
+  "fronts": [
+    {
+      "name": "Las Vicas",
+      "status": "Amarillo",
+      "priority": "Alta",
+      "objective": "Escalar rentabilidad y operación del e-commerce con más visibilidad y menos intuición suelta.",
+      "blocker": "No hay tablero mínimo de operación y métricas.",
+      "next_action": "Definir 3 métricas y 3 prioridades semanales del frente.",
+      "owner": "Sergio + Delfos",
+      "updated": "Versión 3 inicial"
+    },
+    {
+      "name": "Marca personal + adquirencia",
+      "status": "Activo",
+      "priority": "Alta",
+      "objective": "Convertir la tesis de adquirencia agéntica en presencia pública consistente y útil.",
+      "blocker": "Falta pipeline estable entre radar, insight y pieza publicable.",
+      "next_action": "Definir pipeline operativo: radar → insight → borrador → publicación.",
+      "owner": "Delfos con validación de Sergio",
+      "updated": "Versión 3 inicial"
+    },
+    {
+      "name": "Finanzas",
+      "status": "Parcial",
+      "priority": "Media",
+      "objective": "Tener visibilidad ejecutiva simple sobre caja, gastos y presupuesto de herramientas.",
+      "blocker": "La información financiera está distribuida y sin vista única.",
+      "next_action": "Diseñar una vista mensual mínima con ingresos, egresos, presupuesto y alertas.",
+      "owner": "Sergio",
+      "updated": "Versión 3 inicial"
+    },
+    {
+      "name": "Stack / infraestructura",
+      "status": "Rojo",
+      "priority": "Alta",
+      "objective": "Tener un stack más confiable, menos frágil y más previsible para operar Delfos.",
+      "blocker": "Persisten fragilidades en cron, OAuth, F4 y disciplina operativa.",
+      "next_action": "Consolidar base: memoria diaria verificable, cron confiables, Telegram/F4 y protocolo operativo.",
+      "owner": "Delfos",
+      "updated": "Versión 3 inicial"
+    }
+  ],
+  "decisions": [
+    {
+      "decision": "Escalar Delfos en 3 fases",
+      "reason": "Menos improvisación, más sistema",
+      "state": "Vigente"
+    },
+    {
+      "decision": "Usar dashboard como soporte de Etapa 1",
+      "reason": "Dar continuidad visible a los frentes",
+      "state": "Implementado"
+    },
+    {
+      "decision": "No sumar complejidad innecesaria de entrada",
+      "reason": "Evitar fragilidad operativa",
+      "state": "Vigente"
+    }
+  ],
+  "risks": [
+    "Automatizaciones que dicen ‘ok’ sin resultado verificable",
+    "Dependencia excesiva del chat para reconstruir contexto",
+    "Infraestructura sensible en Telegram / OAuth / cron"
+  ]
+}

@@ -3,12 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Delfos Dashboard — Versión 2</title>
+  <title>Delfos Dashboard — V3</title>
   <style>
-    :root {
-      --bg:#0b1020; --bg2:#0f1733; --panel:#131c3d; --panel2:#18234d; --line:#2a3768;
-      --text:#edf2ff; --muted:#a5b3df; --green:#22c55e; --yellow:#f59e0b; --red:#ef4444; --blue:#60a5fa;
-    }
+    :root{--bg:#0b1020;--bg2:#0f1733;--panel:#131c3d;--panel2:#18234d;--line:#2a3768;--text:#edf2ff;--muted:#a5b3df;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--blue:#60a5fa}
     *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text)}
     .wrap{max-width:1450px;margin:0 auto;padding:24px}.panel{background:rgba(19,28,61,.92);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 12px 34px rgba(0,0,0,.25)}
     h1,h2,h3,p{margin:0}.hero{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:18px}.hero h1{font-size:30px;margin-bottom:8px}.sub{color:var(--muted);line-height:1.5}
@@ -16,101 +13,107 @@
     .top3{display:grid;gap:10px}.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid transparent}.green{background:rgba(34,197,94,.12);color:#86efac;border-color:rgba(34,197,94,.3)}.yellow{background:rgba(245,158,11,.12);color:#fcd34d;border-color:rgba(245,158,11,.3)}.red{background:rgba(239,68,68,.12);color:#fca5a5;border-color:rgba(239,68,68,.3)}.blue{background:rgba(96,165,250,.12);color:#93c5fd;border-color:rgba(96,165,250,.3)}
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:18px}.card{display:grid;gap:12px}.title{display:flex;justify-content:space-between;align-items:center;gap:12px}.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.box{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px;min-height:95px}.box h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}.box p,.box li{font-size:14px;line-height:1.45}
     ul{margin:0;padding-left:18px}.footer{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.note{font-size:13px;color:var(--muted)} table{width:100%;border-collapse:collapse} td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px} th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.07em}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.btn{background:#24315f;color:var(--text);border:1px solid var(--line);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700}.btn:hover{filter:brightness(1.08)} .btn.secondary{background:#18234d}
+    .editor{display:none;margin-bottom:18px}.editor.show{display:block}.editor textarea{width:100%;min-height:320px;background:#0f1733;color:var(--text);border:1px solid var(--line);border-radius:14px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.5}
+    .helper{color:var(--muted);font-size:13px;margin-top:8px}
     @media (max-width:980px){.hero,.grid,.footer,.meta,.row{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="hero">
-    <div class="panel">
-      <h1>Delfos Dashboard — Versión 2 Operativa</h1>
-      <p class="sub">Tablero de ejecución para Etapa 1. La lógica ya no es “mostrar frentes”, sino decidir qué mover, qué está bloqueado y quién tiene la próxima acción.</p>
-      <div class="row">
-        <div class="mini"><div class="l">Foco actual</div><div class="v">Base operativa confiable</div></div>
-        <div class="mini"><div class="l">Próximo paso dominante</div><div class="v">Ordenar frentes y owners</div></div>
-        <div class="mini"><div class="l">Estado del sistema</div><div class="v">Transición a operativo</div></div>
-      </div>
-    </div>
-    <div class="panel top3">
-      <h2 style="font-size:16px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Top 3 del momento</h2>
-      <div class="mini"><div class="l">1</div><div class="v" style="font-size:16px">Definir un próximo paso único por frente</div></div>
-      <div class="mini"><div class="l">2</div><div class="v" style="font-size:16px">Bajar improvisación en stack / infraestructura</div></div>
-      <div class="mini"><div class="l">3</div><div class="v" style="font-size:16px">Transformar análisis en pipeline de salida</div></div>
-    </div>
+  <div class="toolbar">
+    <button class="btn" id="editBtn">Editar datos</button>
+    <button class="btn secondary" id="renderBtn">Aplicar cambios locales</button>
+  </div>
+  <div class="panel editor" id="editorWrap">
+    <h2 style="margin-bottom:10px">Editor local (JSON)</h2>
+    <textarea id="jsonEditor"></textarea>
+    <p class="helper">Esto edita la vista en tu navegador. No persiste automáticamente en GitHub. Si querés persistirlo, después yo puedo tomar este JSON y subirlo al repo.</p>
   </div>
 
-  <div class="grid">
-    <div class="panel card">
-      <div class="title"><h2>Las Vicas</h2><span class="pill yellow">Amarillo</span></div>
-      <div class="meta">
-        <div class="box"><h3>Objetivo</h3><p>Escalar rentabilidad y operación del e-commerce con más visibilidad y menos intuición suelta.</p></div>
-        <div class="box"><h3>Prioridad</h3><p><strong>Alta</strong></p><p class="note">Impacto directo en negocio real.</p></div>
-        <div class="box"><h3>Bloqueo dominante</h3><p>No hay tablero mínimo de operación y métricas.</p></div>
-        <div class="box"><h3>Siguiente acción única</h3><p>Definir 3 métricas y 3 prioridades semanales del frente.</p></div>
-        <div class="box"><h3>Dueño</h3><p>Sergio + Delfos</p></div>
-        <div class="box"><h3>Última actualización</h3><p>Versión 2 inicial</p></div>
-      </div>
-    </div>
-
-    <div class="panel card">
-      <div class="title"><h2>Marca personal + adquirencia</h2><span class="pill blue">Activo</span></div>
-      <div class="meta">
-        <div class="box"><h3>Objetivo</h3><p>Convertir la tesis de adquirencia agéntica en presencia pública consistente y útil.</p></div>
-        <div class="box"><h3>Prioridad</h3><p><strong>Alta</strong></p><p class="note">Construcción de posicionamiento.</p></div>
-        <div class="box"><h3>Bloqueo dominante</h3><p>Falta pipeline estable entre radar, insight y pieza publicable.</p></div>
-        <div class="box"><h3>Siguiente acción única</h3><p>Definir pipeline operativo: radar → insight → borrador → publicación.</p></div>
-        <div class="box"><h3>Dueño</h3><p>Delfos con validación de Sergio</p></div>
-        <div class="box"><h3>Última actualización</h3><p>Versión 2 inicial</p></div>
-      </div>
-    </div>
-
-    <div class="panel card">
-      <div class="title"><h2>Finanzas</h2><span class="pill yellow">Parcial</span></div>
-      <div class="meta">
-        <div class="box"><h3>Objetivo</h3><p>Tener visibilidad ejecutiva simple sobre caja, gastos y presupuesto de herramientas.</p></div>
-        <div class="box"><h3>Prioridad</h3><p><strong>Media</strong></p><p class="note">Importante, pero requiere orden previo.</p></div>
-        <div class="box"><h3>Bloqueo dominante</h3><p>La información financiera está distribuida y sin vista única.</p></div>
-        <div class="box"><h3>Siguiente acción única</h3><p>Diseñar una vista mensual mínima con ingresos, egresos, presupuesto y alertas.</p></div>
-        <div class="box"><h3>Dueño</h3><p>Sergio</p></div>
-        <div class="box"><h3>Última actualización</h3><p>Versión 2 inicial</p></div>
-      </div>
-    </div>
-
-    <div class="panel card">
-      <div class="title"><h2>Stack / infraestructura</h2><span class="pill red">Rojo</span></div>
-      <div class="meta">
-        <div class="box"><h3>Objetivo</h3><p>Tener un stack más confiable, menos frágil y más previsible para operar Delfos.</p></div>
-        <div class="box"><h3>Prioridad</h3><p><strong>Alta</strong></p><p class="note">Bloquea continuidad operativa.</p></div>
-        <div class="box"><h3>Bloqueo dominante</h3><p>Persisten fragilidades en cron, OAuth, F4 y disciplina operativa.</p></div>
-        <div class="box"><h3>Siguiente acción única</h3><p>Consolidar base: memoria diaria verificable, cron confiables, Telegram/F4 y protocolo operativo.</p></div>
-        <div class="box"><h3>Dueño</h3><p>Delfos</p></div>
-        <div class="box"><h3>Última actualización</h3><p>Versión 2 inicial</p></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    <div class="panel">
-      <h2>Decisiones recientes</h2>
-      <table>
-        <thead><tr><th>Decisión</th><th>Motivo</th><th>Estado</th></tr></thead>
-        <tbody>
-          <tr><td>Escalar Delfos en 3 fases</td><td>Menos improvisación, más sistema</td><td>Vigente</td></tr>
-          <tr><td>Usar dashboard como soporte de Etapa 1</td><td>Dar continuidad visible a los frentes</td><td>Implementado</td></tr>
-          <tr><td>No sumar complejidad innecesaria de entrada</td><td>Evitar fragilidad operativa</td><td>Vigente</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="panel">
-      <h2>Riesgos activos</h2>
-      <ul>
-        <li>Automatizaciones que dicen “ok” sin resultado verificable</li>
-        <li>Dependencia excesiva del chat para reconstruir contexto</li>
-        <li>Infraestructura sensible en Telegram / OAuth / cron</li>
-      </ul>
-      <p class="note" style="margin-top:12px">Regla operativa: cada frente debe tener una única siguiente acción y un dueño claro. Si no, sigue siendo pensamiento difuso.</p>
-    </div>
-  </div>
+  <div id="app"></div>
 </div>
+<script>
+let state = null;
+const app = document.getElementById('app');
+const editorWrap = document.getElementById('editorWrap');
+const jsonEditor = document.getElementById('jsonEditor');
+
+function badgeClass(status){
+  const s = (status||'').toLowerCase();
+  if(s.includes('rojo')) return 'red';
+  if(s.includes('amarillo') || s.includes('parcial')) return 'yellow';
+  if(s.includes('activo')) return 'blue';
+  if(s.includes('verde')) return 'green';
+  return 'blue';
+}
+
+function render(data){
+  state = data;
+  jsonEditor.value = JSON.stringify(data, null, 2);
+  app.innerHTML = `
+    <div class="hero">
+      <div class="panel">
+        <h1>${data.header.title}</h1>
+        <p class="sub">Tablero editable para Etapa 1. La lógica es operativa: foco, owners, siguiente acción única y bloqueos dominantes.</p>
+        <div class="row">
+          <div class="mini"><div class="l">Foco actual</div><div class="v">${data.header.focus}</div></div>
+          <div class="mini"><div class="l">Próximo paso dominante</div><div class="v">${data.header.dominant_next_step}</div></div>
+          <div class="mini"><div class="l">Estado del sistema</div><div class="v">${data.header.system_state}</div></div>
+        </div>
+      </div>
+      <div class="panel top3">
+        <h2 style="font-size:16px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Top 3 del momento</h2>
+        ${data.top3.map((t,i)=>`<div class="mini"><div class="l">${i+1}</div><div class="v" style="font-size:16px">${t}</div></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="grid">
+      ${data.fronts.map(f=>`
+        <div class="panel card">
+          <div class="title"><h2>${f.name}</h2><span class="pill ${badgeClass(f.status)}">${f.status}</span></div>
+          <div class="meta">
+            <div class="box"><h3>Objetivo</h3><p>${f.objective}</p></div>
+            <div class="box"><h3>Prioridad</h3><p><strong>${f.priority}</strong></p></div>
+            <div class="box"><h3>Bloqueo dominante</h3><p>${f.blocker}</p></div>
+            <div class="box"><h3>Siguiente acción única</h3><p>${f.next_action}</p></div>
+            <div class="box"><h3>Dueño</h3><p>${f.owner}</p></div>
+            <div class="box"><h3>Última actualización</h3><p>${f.updated}</p></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="footer">
+      <div class="panel">
+        <h2>Decisiones recientes</h2>
+        <table>
+          <thead><tr><th>Decisión</th><th>Motivo</th><th>Estado</th></tr></thead>
+          <tbody>
+            ${data.decisions.map(d=>`<tr><td>${d.decision}</td><td>${d.reason}</td><td>${d.state}</td></tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <h2>Riesgos activos</h2>
+        <ul>${data.risks.map(r=>`<li>${r}</li>`).join('')}</ul>
+        <p class="note" style="margin-top:12px">Regla operativa: cada frente debe tener una única siguiente acción y un dueño claro.</p>
+      </div>
+    </div>
+  `;
+}
+
+document.getElementById('editBtn').addEventListener('click', ()=> editorWrap.classList.toggle('show'));
+document.getElementById('renderBtn').addEventListener('click', ()=> {
+  try {
+    const parsed = JSON.parse(jsonEditor.value);
+    render(parsed);
+  } catch(err){
+    alert('JSON inválido. Revisá comas, comillas o llaves.');
+  }
+});
+
+fetch('./data.json').then(r=>r.json()).then(render);
+</script>
 </body>
 </html>
