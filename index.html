@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Delfos Dashboard — V3</title>
+  <title>Delfos Dashboard — V4</title>
   <style>
     :root{--bg:#0b1020;--bg2:#0f1733;--panel:#131c3d;--panel2:#18234d;--line:#2a3768;--text:#edf2ff;--muted:#a5b3df;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--blue:#60a5fa}
     *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text)}
@@ -13,9 +13,9 @@
     .top3{display:grid;gap:10px}.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid transparent}.green{background:rgba(34,197,94,.12);color:#86efac;border-color:rgba(34,197,94,.3)}.yellow{background:rgba(245,158,11,.12);color:#fcd34d;border-color:rgba(245,158,11,.3)}.red{background:rgba(239,68,68,.12);color:#fca5a5;border-color:rgba(239,68,68,.3)}.blue{background:rgba(96,165,250,.12);color:#93c5fd;border-color:rgba(96,165,250,.3)}
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:18px}.card{display:grid;gap:12px}.title{display:flex;justify-content:space-between;align-items:center;gap:12px}.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.box{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px;min-height:95px}.box h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}.box p,.box li{font-size:14px;line-height:1.45}
     ul{margin:0;padding-left:18px}.footer{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.note{font-size:13px;color:var(--muted)} table{width:100%;border-collapse:collapse} td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px} th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.07em}
-    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.btn{background:#24315f;color:var(--text);border:1px solid var(--line);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700}.btn:hover{filter:brightness(1.08)} .btn.secondary{background:#18234d}
-    .editor{display:none;margin-bottom:18px}.editor.show{display:block}.editor textarea{width:100%;min-height:320px;background:#0f1733;color:var(--text);border:1px solid var(--line);border-radius:14px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.5}
-    .helper{color:var(--muted);font-size:13px;margin-top:8px}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.btn{background:#24315f;color:var(--text);border:1px solid var(--line);padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700}.btn:hover{filter:brightness(1.08)} .btn.secondary{background:#18234d}.btn.warn{background:#5b1f2a}
+    .editor{display:none;margin-bottom:18px}.editor.show{display:block}.editor textarea{width:100%;min-height:340px;background:#0f1733;color:var(--text);border:1px solid var(--line);border-radius:14px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.5}
+    .helper{color:var(--muted);font-size:13px;margin-top:8px}.statusline{font-size:13px;color:var(--muted);margin-top:8px}
     @media (max-width:980px){.hero,.grid,.footer,.meta,.row{grid-template-columns:1fr}}
   </style>
 </head>
@@ -23,97 +23,36 @@
 <div class="wrap">
   <div class="toolbar">
     <button class="btn" id="editBtn">Editar datos</button>
-    <button class="btn secondary" id="renderBtn">Aplicar cambios locales</button>
+    <button class="btn secondary" id="renderBtn">Aplicar cambios</button>
+    <button class="btn secondary" id="saveBtn">Guardar en este navegador</button>
+    <button class="btn warn" id="resetBtn">Resetear a versión publicada</button>
   </div>
   <div class="panel editor" id="editorWrap">
-    <h2 style="margin-bottom:10px">Editor local (JSON)</h2>
+    <h2 style="margin-bottom:10px">Editor local persistente (JSON)</h2>
     <textarea id="jsonEditor"></textarea>
-    <p class="helper">Esto edita la vista en tu navegador. No persiste automáticamente en GitHub. Si querés persistirlo, después yo puedo tomar este JSON y subirlo al repo.</p>
+    <p class="helper">Versión 4: podés editar, aplicar y guardar en este navegador con <code>localStorage</code>. Esto persiste entre recargas en este dispositivo/navegador, pero no sube automáticamente a GitHub.</p>
+    <p class="statusline" id="statusLine">Estado: cargando…</p>
   </div>
-
   <div id="app"></div>
 </div>
 <script>
-let state = null;
+const STORAGE_KEY = 'delfos_dashboard_v4_data';
+let publishedState = null;
+let currentState = null;
 const app = document.getElementById('app');
 const editorWrap = document.getElementById('editorWrap');
 const jsonEditor = document.getElementById('jsonEditor');
-
-function badgeClass(status){
-  const s = (status||'').toLowerCase();
-  if(s.includes('rojo')) return 'red';
-  if(s.includes('amarillo') || s.includes('parcial')) return 'yellow';
-  if(s.includes('activo')) return 'blue';
-  if(s.includes('verde')) return 'green';
-  return 'blue';
-}
-
-function render(data){
-  state = data;
-  jsonEditor.value = JSON.stringify(data, null, 2);
-  app.innerHTML = `
-    <div class="hero">
-      <div class="panel">
-        <h1>${data.header.title}</h1>
-        <p class="sub">Tablero editable para Etapa 1. La lógica es operativa: foco, owners, siguiente acción única y bloqueos dominantes.</p>
-        <div class="row">
-          <div class="mini"><div class="l">Foco actual</div><div class="v">${data.header.focus}</div></div>
-          <div class="mini"><div class="l">Próximo paso dominante</div><div class="v">${data.header.dominant_next_step}</div></div>
-          <div class="mini"><div class="l">Estado del sistema</div><div class="v">${data.header.system_state}</div></div>
-        </div>
-      </div>
-      <div class="panel top3">
-        <h2 style="font-size:16px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Top 3 del momento</h2>
-        ${data.top3.map((t,i)=>`<div class="mini"><div class="l">${i+1}</div><div class="v" style="font-size:16px">${t}</div></div>`).join('')}
-      </div>
-    </div>
-
-    <div class="grid">
-      ${data.fronts.map(f=>`
-        <div class="panel card">
-          <div class="title"><h2>${f.name}</h2><span class="pill ${badgeClass(f.status)}">${f.status}</span></div>
-          <div class="meta">
-            <div class="box"><h3>Objetivo</h3><p>${f.objective}</p></div>
-            <div class="box"><h3>Prioridad</h3><p><strong>${f.priority}</strong></p></div>
-            <div class="box"><h3>Bloqueo dominante</h3><p>${f.blocker}</p></div>
-            <div class="box"><h3>Siguiente acción única</h3><p>${f.next_action}</p></div>
-            <div class="box"><h3>Dueño</h3><p>${f.owner}</p></div>
-            <div class="box"><h3>Última actualización</h3><p>${f.updated}</p></div>
-          </div>
-        </div>
-      `).join('')}
-    </div>
-
-    <div class="footer">
-      <div class="panel">
-        <h2>Decisiones recientes</h2>
-        <table>
-          <thead><tr><th>Decisión</th><th>Motivo</th><th>Estado</th></tr></thead>
-          <tbody>
-            ${data.decisions.map(d=>`<tr><td>${d.decision}</td><td>${d.reason}</td><td>${d.state}</td></tr>`).join('')}
-          </tbody>
-        </table>
-      </div>
-      <div class="panel">
-        <h2>Riesgos activos</h2>
-        <ul>${data.risks.map(r=>`<li>${r}</li>`).join('')}</ul>
-        <p class="note" style="margin-top:12px">Regla operativa: cada frente debe tener una única siguiente acción y un dueño claro.</p>
-      </div>
-    </div>
-  `;
-}
-
-document.getElementById('editBtn').addEventListener('click', ()=> editorWrap.classList.toggle('show'));
-document.getElementById('renderBtn').addEventListener('click', ()=> {
-  try {
-    const parsed = JSON.parse(jsonEditor.value);
-    render(parsed);
-  } catch(err){
-    alert('JSON inválido. Revisá comas, comillas o llaves.');
-  }
-});
-
-fetch('./data.json').then(r=>r.json()).then(render);
+const statusLine = document.getElementById('statusLine');
+function badgeClass(status){const s=(status||'').toLowerCase();if(s.includes('rojo'))return'red';if(s.includes('amarillo')||s.includes('parcial'))return'yellow';if(s.includes('activo'))return'blue';if(s.includes('verde'))return'green';return'blue';}
+function setStatus(t){statusLine.textContent='Estado: '+t;}
+function render(data){currentState=data;jsonEditor.value=JSON.stringify(data,null,2);app.innerHTML=`<div class="hero"><div class="panel"><h1>${data.header.title}</h1><p class="sub">Tablero editable y persistente a nivel navegador para Etapa 1. La lógica es operativa: foco, owners, siguiente acción única y bloqueos dominantes.</p><div class="row"><div class="mini"><div class="l">Foco actual</div><div class="v">${data.header.focus}</div></div><div class="mini"><div class="l">Próximo paso dominante</div><div class="v">${data.header.dominant_next_step}</div></div><div class="mini"><div class="l">Estado del sistema</div><div class="v">${data.header.system_state}</div></div></div></div><div class="panel top3"><h2 style="font-size:16px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Top 3 del momento</h2>${data.top3.map((t,i)=>`<div class="mini"><div class="l">${i+1}</div><div class="v" style="font-size:16px">${t}</div></div>`).join('')}</div></div><div class="grid">${data.fronts.map(f=>`<div class="panel card"><div class="title"><h2>${f.name}</h2><span class="pill ${badgeClass(f.status)}">${f.status}</span></div><div class="meta"><div class="box"><h3>Objetivo</h3><p>${f.objective}</p></div><div class="box"><h3>Prioridad</h3><p><strong>${f.priority}</strong></p></div><div class="box"><h3>Bloqueo dominante</h3><p>${f.blocker}</p></div><div class="box"><h3>Siguiente acción única</h3><p>${f.next_action}</p></div><div class="box"><h3>Dueño</h3><p>${f.owner}</p></div><div class="box"><h3>Última actualización</h3><p>${f.updated}</p></div></div></div>`).join('')}</div><div class="footer"><div class="panel"><h2>Decisiones recientes</h2><table><thead><tr><th>Decisión</th><th>Motivo</th><th>Estado</th></tr></thead><tbody>${data.decisions.map(d=>`<tr><td>${d.decision}</td><td>${d.reason}</td><td>${d.state}</td></tr>`).join('')}</tbody></table></div><div class="panel"><h2>Riesgos activos</h2><ul>${data.risks.map(r=>`<li>${r}</li>`).join('')}</ul><p class="note" style="margin-top:12px">Regla operativa: cada frente debe tener una única siguiente acción y un dueño claro.</p></div></div>`;}
+function loadPublished(){return fetch('./data.json').then(r=>r.json());}
+function loadInitial(){loadPublished().then(data=>{publishedState=data;const saved=localStorage.getItem(STORAGE_KEY);if(saved){try{const parsed=JSON.parse(saved);render(parsed);setStatus('cargado desde guardado local del navegador');return;}catch(e){}}render(data);setStatus('cargado desde versión publicada');});}
+document.getElementById('editBtn').addEventListener('click',()=>editorWrap.classList.toggle('show'));
+document.getElementById('renderBtn').addEventListener('click',()=>{try{const parsed=JSON.parse(jsonEditor.value);render(parsed);setStatus('cambios aplicados localmente, no guardados');}catch(err){alert('JSON inválido. Revisá comas, comillas o llaves.');}});
+document.getElementById('saveBtn').addEventListener('click',()=>{try{const parsed=JSON.parse(jsonEditor.value);localStorage.setItem(STORAGE_KEY,JSON.stringify(parsed));render(parsed);setStatus('guardado en este navegador');}catch(err){alert('JSON inválido. No se guardó.');}});
+document.getElementById('resetBtn').addEventListener('click',()=>{localStorage.removeItem(STORAGE_KEY);if(publishedState){render(publishedState);setStatus('reset a versión publicada');}});
+loadInitial();
 </script>
 </body>
 </html>
