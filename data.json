@@ -1,14 +1,14 @@
 {
   "header": {
-    "title": "Delfos Dashboard — Versión 3 Editable",
-    "focus": "Base operativa confiable",
-    "dominant_next_step": "Ordenar frentes y owners",
-    "system_state": "Transición a operativo"
+    "title": "Delfos Dashboard — Privado",
+    "focus": "Base operativa más confiable",
+    "dominant_next_step": "Validar frentes con avance real fuera del stack",
+    "system_state": "Base estabilizada, falta ejecución en frentes de negocio"
   },
   "top3": [
-    "Definir un próximo paso único por frente",
-    "Bajar improvisación en stack / infraestructura",
-    "Transformar análisis en pipeline de salida"
+    "Mover el foco desde infraestructura a ejecución de negocio",
+    "Definir próximo paso único con evidencia en cada frente activo",
+    "Reducir dependencia del chat como superficie operativa"
   ],
   "fronts": [
     {
@@ -43,13 +43,13 @@
     },
     {
       "name": "Stack / infraestructura",
-      "status": "Rojo",
+      "status": "Amarillo",
       "priority": "Alta",
       "objective": "Tener un stack más confiable, menos frágil y más previsible para operar Delfos.",
-      "blocker": "Persisten fragilidades en cron, OAuth, F4 y disciplina operativa.",
-      "next_action": "Consolidar base: memoria diaria verificable, cron confiables, Telegram/F4 y protocolo operativo.",
+      "blocker": "Persisten fragilidades puntuales en OAuth Codex, F4 y acceso multi-dispositivo sin fricción.",
+      "next_action": "Probar acceso al dashboard privado desde la PC del trabajo y cerrar criterio de acceso remoto.",
       "owner": "Delfos",
-      "updated": "Versión 3 inicial"
+      "updated": "2026-04-19"
     }
   ],
   "decisions": [
@@ -67,11 +67,21 @@
       "decision": "No sumar complejidad innecesaria de entrada",
       "reason": "Evitar fragilidad operativa",
       "state": "Vigente"
+    },
+    {
+      "decision": "Operar dashboard privado V5 por Tailscale + Basic Auth",
+      "reason": "Privacidad real con acceso viable desde dispositivos personales",
+      "state": "Implementado"
+    },
+    {
+      "decision": "Depurar archivos base de contexto",
+      "reason": "Reducir redundancia, ruido y arrastre de contexto",
+      "state": "Implementado"
     }
   ],
   "risks": [
-    "Automatizaciones que dicen ‘ok’ sin resultado verificable",
     "Dependencia excesiva del chat para reconstruir contexto",
-    "Infraestructura sensible en Telegram / OAuth / cron"
+    "Infraestructura sensible en OAuth Codex y acceso desde dispositivos sin Tailscale",
+    "Falta evidencia operativa nueva en frentes de negocio fuera del stack"
   ]
 }
