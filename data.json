@@ -13,13 +13,17 @@
   "fronts": [
     {
       "name": "Las Vicas",
-      "status": "Amarillo",
+      "status": "Parcial",
       "priority": "Alta",
       "objective": "Escalar rentabilidad y operación del e-commerce con más visibilidad y menos intuición suelta.",
-      "blocker": "No hay tablero mínimo de operación y métricas.",
+      "blocker": "No hay todavía un tablero mínimo de operación y métricas.",
       "next_action": "Indicar ajustes en publicidad.",
+      "planned_actions": [
+        "Definir 3 métricas clave del frente.",
+        "Ordenar 3 prioridades semanales operativas."
+      ],
       "owner": "Sergio + Delfos",
-      "updated": "Versión 3 inicial"
+      "updated": "2026-04-20"
     },
     {
       "name": "Marca personal + adquirencia",
@@ -28,28 +32,41 @@
       "objective": "Convertir la tesis de adquirencia agéntica en presencia pública consistente y útil.",
       "blocker": "Falta pipeline estable entre radar, insight y pieza publicable.",
       "next_action": "Definir pipeline operativo: radar → insight → borrador → publicación.",
+      "planned_actions": [
+        "Elegir criterio de selección de temas.",
+        "Convertir una tesis en pieza publicable."
+      ],
       "owner": "Delfos con validación de Sergio",
-      "updated": "Versión 3 inicial"
+      "updated": "2026-04-20"
     },
     {
       "name": "Finanzas",
       "status": "Parcial",
       "priority": "Media",
       "objective": "Tener visibilidad ejecutiva simple sobre caja, gastos y presupuesto de herramientas.",
-      "blocker": "La información financiera está distribuida y sin vista única.",
+      "blocker": "La información financiera sigue distribuida y sin vista única.",
       "next_action": "Terminar de diagramar el nuevo stack.",
+      "planned_actions": [
+        "Definir estructura mínima de ingresos y egresos.",
+        "Ordenar una vista mensual base."
+      ],
       "owner": "Sergio",
-      "updated": "Versión 3 inicial"
+      "updated": "2026-04-20"
     },
     {
       "name": "Stack / infraestructura",
-      "status": "Amarillo",
+      "status": "Encaminado",
       "priority": "Alta",
       "objective": "Tener un stack más confiable, menos frágil y más previsible para operar Delfos.",
       "blocker": "Persisten fragilidades puntuales en OAuth Codex, F4 y acceso multi-dispositivo sin fricción.",
       "next_action": "Alinear Status.",
+      "planned_actions": [
+        "Validar acceso desde la PC del trabajo.",
+        "Cerrar criterio de acceso remoto.",
+        "Revisar estabilidad de OAuth Codex."
+      ],
       "owner": "Delfos",
-      "updated": "2026-04-19"
+      "updated": "2026-04-20"
     }
   ],
   "decisions": [
