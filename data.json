@@ -17,7 +17,7 @@
       "priority": "Alta",
       "objective": "Escalar rentabilidad y operación del e-commerce con más visibilidad y menos intuición suelta.",
       "blocker": "No hay tablero mínimo de operación y métricas.",
-      "next_action": "Definir 3 métricas y 3 prioridades semanales del frente.",
+      "next_action": "Indicar ajustes en publicidad.",
       "owner": "Sergio + Delfos",
       "updated": "Versión 3 inicial"
     },
@@ -37,7 +37,7 @@
       "priority": "Media",
       "objective": "Tener visibilidad ejecutiva simple sobre caja, gastos y presupuesto de herramientas.",
       "blocker": "La información financiera está distribuida y sin vista única.",
-      "next_action": "Diseñar una vista mensual mínima con ingresos, egresos, presupuesto y alertas.",
+      "next_action": "Terminar de diagramar el nuevo stack.",
       "owner": "Sergio",
       "updated": "Versión 3 inicial"
     },
@@ -47,7 +47,7 @@
       "priority": "Alta",
       "objective": "Tener un stack más confiable, menos frágil y más previsible para operar Delfos.",
       "blocker": "Persisten fragilidades puntuales en OAuth Codex, F4 y acceso multi-dispositivo sin fricción.",
-      "next_action": "Probar acceso al dashboard privado desde la PC del trabajo y cerrar criterio de acceso remoto.",
+      "next_action": "Alinear Status.",
       "owner": "Delfos",
       "updated": "2026-04-19"
     }
