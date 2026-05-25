@@ -3,88 +3,206 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Delfos Dashboard</title>
+  <title>Delfos Kanban — Semana 25/05/2026</title>
   <style>
-    :root{--bg:#0b1020;--bg2:#0f1733;--panel:#131c3d;--panel2:#18234d;--line:#2a3768;--text:#edf2ff;--muted:#a5b3df;--green:#22c55e;--yellow:#f59e0b;--red:#ef4444;--blue:#60a5fa;--violet:#a78bfa}
-    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text)}
-    .wrap{max-width:1450px;margin:0 auto;padding:24px}.panel{background:rgba(19,28,61,.92);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 12px 34px rgba(0,0,0,.25)}
-    h1,h2,h3,p{margin:0}.hero{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:18px}.hero h1{font-size:30px;margin-bottom:8px}.sub{color:var(--muted);line-height:1.5}
-    .row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.mini{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px}.mini .l{font-size:12px;color:var(--muted);margin-bottom:6px}.mini .v{font-size:18px;font-weight:800}
-    .top3{display:grid;gap:10px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:18px}.card{display:grid;gap:14px}
-    .title{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.titleleft{display:grid;gap:6px}.meta-top{display:flex;gap:8px;flex-wrap:wrap}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;border:1px solid transparent}.green{background:rgba(34,197,94,.12);color:#86efac;border-color:rgba(34,197,94,.3)}.yellow{background:rgba(245,158,11,.12);color:#fcd34d;border-color:rgba(245,158,11,.3)}.red{background:rgba(239,68,68,.12);color:#fca5a5;border-color:rgba(239,68,68,.3)}.blue{background:rgba(96,165,250,.12);color:#93c5fd;border-color:rgba(96,165,250,.3)}.violet{background:rgba(167,139,250,.12);color:#c4b5fd;border-color:rgba(167,139,250,.3)}
-    .objective{color:var(--muted);font-size:14px;line-height:1.45}.main-action{background:linear-gradient(180deg,#223062,#1a2550);border:1px solid #3a4d8d;border-radius:16px;padding:16px}.main-action .k{font-size:11px;color:#bfd0ff;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}.main-action .v{font-size:24px;font-weight:800;line-height:1.2}
-    .stack{display:grid;grid-template-columns:1fr 1fr;gap:12px}.box{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px}.box h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}.box p,.box li{font-size:14px;line-height:1.45}
-    ul{margin:0;padding-left:18px}.footer{display:grid;grid-template-columns:1.2fr .8fr;gap:16px}.note{font-size:13px;color:var(--muted)} table{width:100%;border-collapse:collapse} td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px} th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.07em}
-    .micro{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
-    @media (max-width:980px){.hero,.grid,.footer,.stack,.row{grid-template-columns:1fr}.main-action .v{font-size:20px}}
+    :root{
+      --bg:#07111f;--panel:#0f1b2d;--panel2:#142238;--card:#f8fafc;--card2:#eef4ff;--line:#263954;
+      --text:#e5eefb;--muted:#9fb0c9;--ink:#102033;--ink2:#4b5f7a;--blue:#60a5fa;--green:#34d399;
+      --yellow:#fbbf24;--red:#fb7185;--violet:#a78bfa;--cyan:#22d3ee;--orange:#fb923c;
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(circle at top left,#12355f 0,#07111f 36%,#050914 100%);color:var(--text)}
+    .wrap{max-width:1540px;margin:0 auto;padding:24px} header{display:grid;grid-template-columns:1.5fr .9fr;gap:16px;margin-bottom:18px}.panel{background:rgba(15,27,45,.92);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 16px 44px rgba(0,0,0,.28)}
+    h1,h2,h3,p{margin:0} h1{font-size:clamp(28px,4vw,46px);letter-spacing:-.04em;line-height:1.05} .sub{color:var(--muted);font-size:16px;line-height:1.55;margin-top:10px;max-width:900px}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid transparent}.p-blue{background:rgba(96,165,250,.14);color:#bfdbfe;border-color:rgba(96,165,250,.32)}.p-green{background:rgba(52,211,153,.14);color:#a7f3d0;border-color:rgba(52,211,153,.32)}.p-yellow{background:rgba(251,191,36,.14);color:#fde68a;border-color:rgba(251,191,36,.32)}.p-red{background:rgba(251,113,133,.14);color:#fecdd3;border-color:rgba(251,113,133,.32)}.p-violet{background:rgba(167,139,250,.14);color:#ddd6fe;border-color:rgba(167,139,250,.32)}.p-cyan{background:rgba(34,211,238,.14);color:#a5f3fc;border-color:rgba(34,211,238,.32)}
+    .focus{display:grid;gap:10px}.focus .big{font-size:22px;font-weight:900;line-height:1.2}.focus .why{color:var(--muted);line-height:1.45}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat{background:rgba(20,34,56,.9);border:1px solid var(--line);border-radius:18px;padding:14px}.stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:7px}.stat .v{font-size:20px;font-weight:900}
+    .board{display:grid;grid-template-columns:repeat(7,minmax(240px,1fr));gap:12px;align-items:start;overflow-x:auto;padding-bottom:8px}.col{background:rgba(15,27,45,.86);border:1px solid var(--line);border-radius:20px;padding:12px;min-height:520px}.col h2{font-size:15px;letter-spacing:-.01em;margin-bottom:4px}.col .date{font-size:12px;color:var(--muted);margin-bottom:12px}.cards{display:grid;gap:10px}.task{background:linear-gradient(180deg,var(--card),var(--card2));color:var(--ink);border:1px solid #d7e3f4;border-radius:16px;padding:13px;box-shadow:0 8px 20px rgba(0,0,0,.16)}.task h3{font-size:15px;line-height:1.25;margin-bottom:7px}.task p,.task li{font-size:13px;line-height:1.42;color:var(--ink2)}.task ul{margin:7px 0 0 18px;padding:0}.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.b{font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:900;border-radius:999px;padding:4px 7px}.b.p0{background:#ffe4e6;color:#be123c}.b.p1{background:#fef3c7;color:#92400e}.b.p2{background:#dbeafe;color:#1d4ed8}.b.stack{background:#e0f2fe;color:#0369a1}.b.negocio{background:#dcfce7;color:#166534}.b.hermes{background:#ede9fe;color:#6d28d9}.b.fin{background:#ffedd5;color:#9a3412}.verify{border-top:1px solid #dbe6f5;margin-top:9px;padding-top:8px;font-size:12px;color:#31506f}.verify strong{color:#102033}.done{opacity:.72}.done h3{text-decoration:line-through;text-decoration-thickness:2px}.footergrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}.list{display:grid;gap:10px}.line{background:rgba(20,34,56,.8);border:1px solid var(--line);border-radius:14px;padding:12px;color:var(--muted);line-height:1.45}.line strong{color:var(--text)}.export{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:#06101e;border:1px solid var(--line);border-radius:14px;padding:12px;color:#c7d7ee;overflow:auto}.small{font-size:12px;color:var(--muted);line-height:1.45;margin-top:12px}
+    @media (max-width:1100px){header,.footergrid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.board{grid-template-columns:repeat(7,280px)}}
+    @media (max-width:620px){.wrap{padding:14px}.stats{grid-template-columns:1fr}.board{grid-template-columns:repeat(7,270px)}}
   </style>
 </head>
 <body>
-<div class="wrap"><div id="app"></div></div>
-<script>
-function badgeClass(status){const s=(status||'').toLowerCase();if(s.includes('bloq')||s.includes('rojo'))return'red';if(s.includes('parcial')||s.includes('amarillo'))return'yellow';if(s.includes('activo'))return'blue';if(s.includes('encaminado'))return'green';return'violet';}
-function render(data){
-document.getElementById('app').innerHTML=`
-<div class="hero">
-  <div class="panel">
-    <h1>${data.header.title}</h1>
-    <p class="sub">Dashboard ejecutivo orientado a decisión y ejecución. La jerarquía visual prioriza la siguiente acción única por frente.</p>
-    <div class="row">
-      <div class="mini"><div class="l">Foco actual</div><div class="v">${data.header.focus}</div></div>
-      <div class="mini"><div class="l">Próximo paso dominante</div><div class="v">${data.header.dominant_next_step}</div></div>
-      <div class="mini"><div class="l">Estado del sistema</div><div class="v">${data.header.system_state}</div></div>
-    </div>
-  </div>
-  <div class="panel top3">
-    <h2 style="font-size:16px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">Top 3 del momento</h2>
-    ${data.top3.map((t,i)=>`<div class="mini"><div class="l">${i+1}</div><div class="v" style="font-size:16px">${t}</div></div>`).join('')}
-  </div>
-</div>
-<div class="grid">
-${data.fronts.map(f=>`<div class="panel card">
-  <div class="title">
-    <div class="titleleft">
-      <h2>${f.name}</h2>
-      <div class="meta-top">
-        <span class="pill ${badgeClass(f.status)}">${f.status}</span>
-        <span class="pill violet">Prioridad ${f.priority}</span>
+  <div class="wrap">
+    <header>
+      <section class="panel">
+        <h1>Delfos Kanban — Semana operativa</h1>
+        <p class="sub">Actualización del informe de capacidades OpenClaw del 24/05/2026, convertido a tablero ejecutable. Objetivo: dejar de mirar el stack como fin en sí mismo y usarlo para cerrar avances de negocio con evidencia.</p>
+        <div class="meta">
+          <span class="pill p-blue">Semana: 25–31 mayo 2026</span>
+          <span class="pill p-green">Stack base operativo</span>
+          <span class="pill p-yellow">Foco: ejecución verificable</span>
+          <span class="pill p-violet">Vista pública sanitizada</span>
+        </div>
+      </section>
+      <aside class="panel focus">
+        <h2>Próximo paso dominante</h2>
+        <div class="big">Convertir el saneamiento técnico en avance real de Las Vicas + Hermes.</div>
+        <p class="why">Si esta semana vuelve a absorberla infraestructura, el sistema mejora pero el negocio no. La regla es: cada tarea técnica debe cerrar una capacidad concreta o quedar postergada.</p>
+      </aside>
+    </header>
+
+    <section class="stats">
+      <div class="stat"><div class="k">Prioridad P0</div><div class="v">3 cierres</div></div>
+      <div class="stat"><div class="k">Frentes activos</div><div class="v">4</div></div>
+      <div class="stat"><div class="k">Pendientes técnicos</div><div class="v">7</div></div>
+      <div class="stat"><div class="k">Criterio de cierre</div><div class="v">Evidencia</div></div>
+    </section>
+
+    <main class="board" aria-label="Kanban semanal Delfos">
+      <section class="col">
+        <h2>Lunes</h2><div class="date">25/05 — ordenar y publicar tablero</div>
+        <div class="cards">
+          <article class="task">
+            <div class="badges"><span class="b p0">P0</span><span class="b stack">Stack</span></div>
+            <h3>Publicar este Kanban web</h3>
+            <p>Convertir el informe HTML en tablero semanal alojado en GitHub Pages.</p>
+            <div class="verify"><strong>Verificación:</strong> URL accesible y repo actualizado.</div>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p0">P0</span><span class="b negocio">Las Vicas</span></div>
+            <h3>Definir KPI mínimo de Las Vicas</h3>
+            <ul><li>Consultas recibidas.</li><li>Tiempo de respuesta.</li><li>Resolución / cierre.</li><li>Conversión post-consulta.</li></ul>
+            <div class="verify"><strong>Verificación:</strong> tablero base con 4 métricas y fuente de dato.</div>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p1">P1</span><span class="b stack">Drive</span></div>
+            <h3>Probar subida real a Google Drive</h3>
+            <p>OAuth fue renovado el 24/05. Falta prueba posterior de carga para cerrar Workspace.</p>
+            <div class="verify"><strong>Verificación:</strong> archivo de prueba subido o bloqueo documentado.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="col">
+        <h2>Martes</h2><div class="date">26/05 — Las Vicas operativo</div>
+        <div class="cards">
+          <article class="task">
+            <div class="badges"><span class="b p0">P0</span><span class="b negocio">Las Vicas</span></div>
+            <h3>Armar tablero semanal de Las Vicas</h3>
+            <p>Vista simple con 4 métricas, responsable, frecuencia y criterio de decisión.</p>
+            <div class="verify"><strong>Verificación:</strong> primera versión utilizable por Sergio/Vico.</div>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p1">P1</span><span class="b negocio">Las Vicas</span></div>
+            <h3>Detectar 3 decisiones comerciales posibles</h3>
+            <ul><li>Producto estrella.</li><li>Stock dormido.</li><li>Ajuste de respuesta/atención.</li></ul>
+            <div class="verify"><strong>Verificación:</strong> lista de decisiones con dato requerido.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="col">
+        <h2>Miércoles</h2><div class="date">27/05 — Hermes / adquirencia</div>
+        <div class="cards">
+          <article class="task">
+            <div class="badges"><span class="b p0">P0</span><span class="b hermes">Hermes</span></div>
+            <h3>Borrador “Sistemas vs Herramientas”</h3>
+            <p>Transformar la tesis pendiente en pieza publicable de marca personal.</p>
+            <div class="verify"><strong>Verificación:</strong> borrador con tesis, ejemplo y cierre.</div>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p1">P1</span><span class="b hermes">Adquirencia</span></div>
+            <h3>Conectar con mandato programático</h3>
+            <p>Usar la pieza para reforzar la narrativa de adquirencia agéntica: intención declarada vs scoring de fraude.</p>
+            <div class="verify"><strong>Verificación:</strong> una frase núcleo reusable.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="col">
+        <h2>Jueves</h2><div class="date">28/05 — saneamiento sin distraer</div>
+        <div class="cards">
+          <article class="task">
+            <div class="badges"><span class="b p1">P1</span><span class="b stack">Crons</span></div>
+            <h3>Ajustar prompts de crons / briefings</h3>
+            <p>Evitar falsa precisión: declarar fuentes disponibles, no disponibles y nivel de evidencia.</p>
+            <div class="verify"><strong>Verificación:</strong> prompts actualizados o decisión de no tocar.</div>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p2">P2</span><span class="b stack">Tana</span></div>
+            <h3>Diseñar prueba Tana sólo lectura</h3>
+            <p>Sin escritura. Mapear tareas/proyectos y comparar contra memoria OpenClaw.</p>
+            <div class="verify"><strong>Verificación:</strong> checklist de prueba y restricciones.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="col">
+        <h2>Viernes</h2><div class="date">29/05 — cierre semanal</div>
+        <div class="cards">
+          <article class="task">
+            <div class="badges"><span class="b p0">P0</span><span class="b hermes">Hermes</span></div>
+            <h3>Publicar o decidir no publicar</h3>
+            <p>No dejar Hermes en limbo. Publicación, agenda de publicación o descarte consciente.</p>
+            <div class="verify"><strong>Verificación:</strong> link/publicación, borrador final o razón de no publicación.</div>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p1">P1</span><span class="b stack">OpenClaw</span></div>
+            <h3>Decidir upgrade 2026.5.22</h3>
+            <p>Sólo con backup, ventana controlada y criterio claro de beneficio.</p>
+            <div class="verify"><strong>Verificación:</strong> GO / HOLD / DESCARTADO.</div>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p1">P1</span><span class="b fin">Finanzas</span></div>
+            <h3>Definir micro-oferta de ingreso pasivo</h3>
+            <p>Activo digital + precio de test + canal de salida.</p>
+            <div class="verify"><strong>Verificación:</strong> ficha de una oferta concreta.</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="col">
+        <h2>Semana</h2><div class="date">Pendientes a cerrar</div>
+        <div class="cards">
+          <article class="task">
+            <div class="badges"><span class="b p0">P0</span><span class="b negocio">Negocio</span></div>
+            <h3>Tablero mínimo Las Vicas</h3><p>Debe quedar operativo, no sólo definido.</p>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p0">P0</span><span class="b hermes">Hermes</span></div>
+            <h3>Pieza Sistemas vs Herramientas</h3><p>Recupera ritmo público y apoya autoridad conceptual.</p>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p1">P1</span><span class="b stack">Drive</span></div>
+            <h3>Cerrar prueba Drive</h3><p>OAuth renovado no equivale a capacidad cerrada hasta subir archivo.</p>
+          </article>
+          <article class="task">
+            <div class="badges"><span class="b p1">P1</span><span class="b stack">Crons</span></div>
+            <h3>Briefings con fuentes reales</h3><p>Calendar OK; correos no validados si no hay integración real.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="col">
+        <h2>Backlog</h2><div class="date">No abrir salvo necesidad</div>
+        <div class="cards">
+          <article class="task"><div class="badges"><span class="b p2">P2</span><span class="b stack">Tana</span></div><h3>Tana Bridge</h3><p>Lectura primero. Escritura bloqueada salvo autorización expresa.</p></article>
+          <article class="task"><div class="badges"><span class="b p2">P2</span><span class="b stack">Agenda</span></div><h3>Outlook + Google dedupe</h3><p>Outlook fuente canónica; Google auxiliar para ingestión.</p></article>
+          <article class="task"><div class="badges"><span class="b p2">P2</span><span class="b stack">YouTube</span></div><h3>WireGuard / wg-quick</h3><p>Bloquea transcripción por URL. No crítico esta semana.</p></article>
+          <article class="task"><div class="badges"><span class="b p2">P2</span><span class="b stack">Modelos</span></div><h3>GLM-5 / Kimi manual</h3><p>Opciones manuales, fuera del fallback principal.</p></article>
+          <article class="task"><div class="badges"><span class="b p2">P2</span><span class="b stack">web_search</span></div><h3>Limpieza provider/config</h3><p>Funciona, pero queda deuda por mezcla Brave/Perplexity.</p></article>
+        </div>
+      </section>
+    </main>
+
+    <section class="footergrid">
+      <div class="panel">
+        <h2>Criterios de decisión de la semana</h2>
+        <div class="list">
+          <div class="line"><strong>No abrir ramas técnicas nuevas</strong> si no cierran una capacidad concreta o reducen riesgo operativo.</div>
+          <div class="line"><strong>Todo avance debe tener evidencia:</strong> archivo, URL, publicación, prueba, checklist o decisión explícita.</div>
+          <div class="line"><strong>Prioridad de negocio:</strong> Las Vicas y Hermes antes que exploraciones de modelos.</div>
+          <div class="line"><strong>Formato de cierre:</strong> hecho / pendiente / causa / próximo paso.</div>
+        </div>
       </div>
-    </div>
+      <div class="panel">
+        <h2>Bloque exportable</h2>
+        <div class="export">Objetivo semanal: cerrar tablero mínimo Las Vicas + pieza Sistemas vs Herramientas + prueba Drive.
+Regla: no registrar avance sin evidencia.
+P0: Kanban publicado, KPIs Las Vicas, borrador/publicación Hermes.
+P1: Drive, crons con fuentes reales, decisión upgrade 2026.5.22.
+P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
+        <p class="small">Origen: informe HTML 24/05, STATUS.md, PENDIENTES_TECNICOS.md, FRENTE_4_PENDIENTES.md y memoria diaria 2026-05-24. No incluye secretos ni tokens.</p>
+      </div>
+    </section>
   </div>
-  <p class="objective">${f.objective}</p>
-  <div class="main-action">
-    <div class="k">Siguiente acción única</div>
-    <div class="v">${f.next_action}</div>
-  </div>
-  <div class="stack">
-    <div class="box">
-      <h3>Bloqueo dominante</h3>
-      <p>${f.blocker}</p>
-    </div>
-    <div class="box">
-      <h3>Otras acciones previstas</h3>
-      <ul>${(f.planned_actions||[]).map(a=>`<li>${a}</li>`).join('')}</ul>
-    </div>
-  </div>
-  <div class="micro"><span><strong>Dueño:</strong> ${f.owner}</span><span><strong>Actualización:</strong> ${f.updated}</span></div>
-</div>`).join('')}
-</div>
-<div class="footer">
-  <div class="panel">
-    <h2>Decisiones recientes</h2>
-    <table><thead><tr><th>Decisión</th><th>Motivo</th><th>Estado</th></tr></thead><tbody>
-    ${data.decisions.map(d=>`<tr><td>${d.decision}</td><td>${d.reason}</td><td>${d.state}</td></tr>`).join('')}
-    </tbody></table>
-  </div>
-  <div class="panel">
-    <h2>Riesgos activos</h2>
-    <ul>${data.risks.map(r=>`<li>${r}</li>`).join('')}</ul>
-    <p class="note" style="margin-top:12px">La lectura correcta del tablero arranca por la siguiente acción única, no por la simetría visual.</p>
-  </div>
-</div>`;
-}
-fetch(`./data.json?v=${Date.now()}`).then(r=>r.json()).then(render);
-</script>
 </body>
 </html>
