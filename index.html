@@ -217,7 +217,7 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
 
 <script>
 (() => {
-  const storageKey = 'delfos-kanban-2026-05-25-v1';
+  const storageKey = 'delfos-kanban-2026-05-25-v2';
   const sections = ['header', '.stats', '.board', '.footergrid'];
   let editing = false;
 
@@ -228,8 +228,12 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
   function setEditing(on) {
     editing = on;
     document.body.classList.toggle('edit-on', on);
-    editableNodes().forEach(el => el.setAttribute('contenteditable', on ? 'true' : 'false'));
+    editableNodes().forEach(el => {
+      el.setAttribute('contenteditable', on ? 'true' : 'false');
+      el.setAttribute('spellcheck', 'true');
+    });
     document.getElementById('editToggle').textContent = on ? 'Salir de edición' : 'Editar';
+    if (on) alert('Modo edición activo. Tocá directamente títulos/textos de las tarjetas, modificá y luego usá “Guardar en este navegador”.');
   }
 
   function snapshot() {
@@ -245,7 +249,7 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
   }
 
   function load() {
-    const raw = localStorage.getItem(storageKey);
+    const raw = localStorage.getItem(storageKey) || localStorage.getItem('delfos-kanban-2026-05-25-v1');
     if (!raw) return;
     try {
       const data = JSON.parse(raw);
@@ -256,7 +260,7 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
     } catch (_) {}
   }
 
-  function exportMarkdown() {
+  function boardMarkdown() {
     const lines = ['# Delfos Kanban — resumen editado', '', `Exportado: ${new Date().toLocaleString('es-AR')}`, ''];
     document.querySelectorAll('.col').forEach(col => {
       const title = col.querySelector('h2')?.innerText.trim() || 'Columna';
@@ -269,25 +273,40 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
       });
       lines.push('');
     });
-    const text = lines.join('
-');
-    navigator.clipboard?.writeText(text).then(() => alert('Resumen copiado. Pegámelo por Telegram si querés que lo publique para todos.')).catch(() => {
-      const w = window.open('', '_blank');
-      if (w) w.document.write('<pre>'+text.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</pre>');
-    });
+    return lines.join('\n');
+  }
+
+  function exportMarkdown() {
+    const text = boardMarkdown();
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text)
+        .then(() => alert('Resumen copiado. Pegámelo por Telegram si querés que lo publique para todos.'))
+        .catch(() => fallbackExport(text));
+    } else {
+      fallbackExport(text);
+    }
+  }
+
+  function fallbackExport(text) {
+    const box = document.createElement('textarea');
+    box.value = text;
+    box.style.position = 'fixed'; box.style.left = '10px'; box.style.top = '10px'; box.style.width = '90vw'; box.style.height = '70vh'; box.style.zIndex = 9999;
+    document.body.appendChild(box); box.focus(); box.select();
+    alert('No pude copiar automáticamente. Te dejé un cuadro de texto seleccionado para copiar manualmente.');
   }
 
   function reset() {
     if (!confirm('¿Restaurar la versión publicada y borrar tus cambios locales?')) return;
     localStorage.removeItem(storageKey);
+    localStorage.removeItem('delfos-kanban-2026-05-25-v1');
     location.reload();
   }
 
   load();
-  document.getElementById('editToggle').addEventListener('click', () => setEditing(!editing));
-  document.getElementById('saveBoard').addEventListener('click', save);
-  document.getElementById('exportBoard').addEventListener('click', exportMarkdown);
-  document.getElementById('resetBoard').addEventListener('click', reset);
+  document.getElementById('editToggle')?.addEventListener('click', () => setEditing(!editing));
+  document.getElementById('saveBoard')?.addEventListener('click', save);
+  document.getElementById('exportBoard')?.addEventListener('click', exportMarkdown);
+  document.getElementById('resetBoard')?.addEventListener('click', reset);
 })();
 </script>
 </body>
