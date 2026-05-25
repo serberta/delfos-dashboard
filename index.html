@@ -218,8 +218,9 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
 
 <script>
 (() => {
-  const storageKey = 'delfos-kanban-2026-05-25-v2';
+  const storageKey = 'delfos-kanban-2026-05-25-v3-db839a4';
   const sections = ['header', '.stats', '.board', '.footergrid'];
+  const legacyKeys = ['delfos-kanban-2026-05-25-v2', 'delfos-kanban-2026-05-25-v1'];
   let editing = false;
 
   function editableNodes() {
@@ -250,7 +251,8 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
   }
 
   function load() {
-    const raw = localStorage.getItem(storageKey) || localStorage.getItem('delfos-kanban-2026-05-25-v1');
+    legacyKeys.forEach(k => localStorage.removeItem(k));
+    const raw = localStorage.getItem(storageKey);
     if (!raw) return;
     try {
       const data = JSON.parse(raw);
@@ -299,7 +301,7 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
   function reset() {
     if (!confirm('¿Restaurar la versión publicada y borrar tus cambios locales?')) return;
     localStorage.removeItem(storageKey);
-    localStorage.removeItem('delfos-kanban-2026-05-25-v1');
+    legacyKeys.forEach(k => localStorage.removeItem(k));
     location.reload();
   }
 
