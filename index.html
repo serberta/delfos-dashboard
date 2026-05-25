@@ -15,12 +15,22 @@
     h1,h2,h3,p{margin:0} h1{font-size:clamp(28px,4vw,46px);letter-spacing:-.04em;line-height:1.05} .sub{color:var(--muted);font-size:16px;line-height:1.55;margin-top:10px;max-width:900px}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;border:1px solid transparent}.p-blue{background:rgba(96,165,250,.14);color:#bfdbfe;border-color:rgba(96,165,250,.32)}.p-green{background:rgba(52,211,153,.14);color:#a7f3d0;border-color:rgba(52,211,153,.32)}.p-yellow{background:rgba(251,191,36,.14);color:#fde68a;border-color:rgba(251,191,36,.32)}.p-red{background:rgba(251,113,133,.14);color:#fecdd3;border-color:rgba(251,113,133,.32)}.p-violet{background:rgba(167,139,250,.14);color:#ddd6fe;border-color:rgba(167,139,250,.32)}.p-cyan{background:rgba(34,211,238,.14);color:#a5f3fc;border-color:rgba(34,211,238,.32)}
     .focus{display:grid;gap:10px}.focus .big{font-size:22px;font-weight:900;line-height:1.2}.focus .why{color:var(--muted);line-height:1.45}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.stat{background:rgba(20,34,56,.9);border:1px solid var(--line);border-radius:18px;padding:14px}.stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:7px}.stat .v{font-size:20px;font-weight:900}
     .board{display:grid;grid-template-columns:repeat(7,minmax(240px,1fr));gap:12px;align-items:start;overflow-x:auto;padding-bottom:8px}.col{background:rgba(15,27,45,.86);border:1px solid var(--line);border-radius:20px;padding:12px;min-height:520px}.col h2{font-size:15px;letter-spacing:-.01em;margin-bottom:4px}.col .date{font-size:12px;color:var(--muted);margin-bottom:12px}.cards{display:grid;gap:10px}.task{background:linear-gradient(180deg,var(--card),var(--card2));color:var(--ink);border:1px solid #d7e3f4;border-radius:16px;padding:13px;box-shadow:0 8px 20px rgba(0,0,0,.16)}.task h3{font-size:15px;line-height:1.25;margin-bottom:7px}.task p,.task li{font-size:13px;line-height:1.42;color:var(--ink2)}.task ul{margin:7px 0 0 18px;padding:0}.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}.b{font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:900;border-radius:999px;padding:4px 7px}.b.p0{background:#ffe4e6;color:#be123c}.b.p1{background:#fef3c7;color:#92400e}.b.p2{background:#dbeafe;color:#1d4ed8}.b.stack{background:#e0f2fe;color:#0369a1}.b.negocio{background:#dcfce7;color:#166534}.b.hermes{background:#ede9fe;color:#6d28d9}.b.fin{background:#ffedd5;color:#9a3412}.verify{border-top:1px solid #dbe6f5;margin-top:9px;padding-top:8px;font-size:12px;color:#31506f}.verify strong{color:#102033}.done{opacity:.72}.done h3{text-decoration:line-through;text-decoration-thickness:2px}.footergrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}.list{display:grid;gap:10px}.line{background:rgba(20,34,56,.8);border:1px solid var(--line);border-radius:14px;padding:12px;color:var(--muted);line-height:1.45}.line strong{color:var(--text)}.export{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;background:#06101e;border:1px solid var(--line);border-radius:14px;padding:12px;color:#c7d7ee;overflow:auto}.small{font-size:12px;color:var(--muted);line-height:1.45;margin-top:12px}
+
+    .toolbar{position:sticky;top:12px;z-index:20;display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;background:rgba(6,16,30,.88);border:1px solid var(--line);border-radius:18px;padding:10px 12px;backdrop-filter:blur(10px);box-shadow:0 12px 30px rgba(0,0,0,.28)}
+    .toolbar button{appearance:none;border:1px solid #365173;background:#132845;color:#e5eefb;border-radius:999px;padding:8px 12px;font-weight:900;font-size:12px;cursor:pointer}.toolbar button:hover{background:#1d3b63}.toolbar .hint{color:var(--muted);font-size:12px;line-height:1.35}.edit-on [contenteditable="true"]{outline:2px dashed rgba(96,165,250,.8);outline-offset:3px;border-radius:6px}.edit-on .task{box-shadow:0 0 0 2px rgba(96,165,250,.28),0 8px 20px rgba(0,0,0,.16)}
     @media (max-width:1100px){header,.footergrid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.board{grid-template-columns:repeat(7,280px)}}
     @media (max-width:620px){.wrap{padding:14px}.stats{grid-template-columns:1fr}.board{grid-template-columns:repeat(7,270px)}}
   </style>
 </head>
 <body>
   <div class="wrap">
+    <nav class="toolbar" aria-label="Controles de edición">
+      <button type="button" id="editToggle">Editar</button>
+      <button type="button" id="saveBoard">Guardar en este navegador</button>
+      <button type="button" id="exportBoard">Copiar resumen</button>
+      <button type="button" id="resetBoard">Restaurar versión publicada</button>
+      <span class="hint">Los cambios se guardan localmente en tu navegador. Para publicarlos globalmente, copiá el resumen y mandámelo por Telegram.</span>
+    </nav>
     <header>
       <section class="panel">
         <h1>Delfos Kanban — Semana operativa</h1>
@@ -204,5 +214,81 @@ P2: Tana lectura, Outlook dedupe, WireGuard, GLM/Kimi manual.</div>
       </div>
     </section>
   </div>
+
+<script>
+(() => {
+  const storageKey = 'delfos-kanban-2026-05-25-v1';
+  const sections = ['header', '.stats', '.board', '.footergrid'];
+  let editing = false;
+
+  function editableNodes() {
+    return document.querySelectorAll('header h1, header .sub, .focus h2, .focus .big, .focus .why, .stat .v, .col h2, .col .date, .task h3, .task p, .task li, .verify, .line, .export, .small');
+  }
+
+  function setEditing(on) {
+    editing = on;
+    document.body.classList.toggle('edit-on', on);
+    editableNodes().forEach(el => el.setAttribute('contenteditable', on ? 'true' : 'false'));
+    document.getElementById('editToggle').textContent = on ? 'Salir de edición' : 'Editar';
+  }
+
+  function snapshot() {
+    const data = { savedAt: new Date().toISOString(), html: {} };
+    sections.forEach(sel => { const el = document.querySelector(sel); if (el) data.html[sel] = el.innerHTML; });
+    return data;
+  }
+
+  function save() {
+    localStorage.setItem(storageKey, JSON.stringify(snapshot()));
+    setEditing(false);
+    alert('Guardado en este navegador. Si abrís desde otro dispositivo, no se verá salvo que lo publiquemos.');
+  }
+
+  function load() {
+    const raw = localStorage.getItem(storageKey);
+    if (!raw) return;
+    try {
+      const data = JSON.parse(raw);
+      sections.forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el && data.html && data.html[sel]) el.innerHTML = data.html[sel];
+      });
+    } catch (_) {}
+  }
+
+  function exportMarkdown() {
+    const lines = ['# Delfos Kanban — resumen editado', '', `Exportado: ${new Date().toLocaleString('es-AR')}`, ''];
+    document.querySelectorAll('.col').forEach(col => {
+      const title = col.querySelector('h2')?.innerText.trim() || 'Columna';
+      const date = col.querySelector('.date')?.innerText.trim() || '';
+      lines.push(`## ${title}${date ? ' — ' + date : ''}`);
+      col.querySelectorAll('.task').forEach(task => {
+        const name = task.querySelector('h3')?.innerText.trim() || 'Tarea';
+        const body = [...task.querySelectorAll('p, li, .verify')].map(x => x.innerText.trim()).filter(Boolean).join(' / ');
+        lines.push(`- ${name}${body ? ': ' + body : ''}`);
+      });
+      lines.push('');
+    });
+    const text = lines.join('
+');
+    navigator.clipboard?.writeText(text).then(() => alert('Resumen copiado. Pegámelo por Telegram si querés que lo publique para todos.')).catch(() => {
+      const w = window.open('', '_blank');
+      if (w) w.document.write('<pre>'+text.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</pre>');
+    });
+  }
+
+  function reset() {
+    if (!confirm('¿Restaurar la versión publicada y borrar tus cambios locales?')) return;
+    localStorage.removeItem(storageKey);
+    location.reload();
+  }
+
+  load();
+  document.getElementById('editToggle').addEventListener('click', () => setEditing(!editing));
+  document.getElementById('saveBoard').addEventListener('click', save);
+  document.getElementById('exportBoard').addEventListener('click', exportMarkdown);
+  document.getElementById('resetBoard').addEventListener('click', reset);
+})();
+</script>
 </body>
 </html>
